@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 // TODO: implement!
@@ -26,6 +27,8 @@ public class TodoItemsHolderImpl extends RecyclerView.Adapter<TodoItemsHolderImp
   public void addNewInProgressItem(String description) {
     TodoItem newItem = new TodoItem(description);
     this.items.add(newItem);
+    this.sortItems();
+
   }
 
   @Override
@@ -35,6 +38,7 @@ public class TodoItemsHolderImpl extends RecyclerView.Adapter<TodoItemsHolderImp
         myItem.setCheckBoxDone();
       }
     }
+    this.sortItems();
   }
 
   @Override
@@ -44,6 +48,7 @@ public class TodoItemsHolderImpl extends RecyclerView.Adapter<TodoItemsHolderImp
         myItem.setCheckBoxInProg();
       }
     }
+    this.sortItems();
   }
 
   @Override
@@ -53,6 +58,7 @@ public class TodoItemsHolderImpl extends RecyclerView.Adapter<TodoItemsHolderImp
         this.items.remove(myItem);
       }
     }
+    this.sortItems();
   }
 
   @NonNull
@@ -76,4 +82,17 @@ public class TodoItemsHolderImpl extends RecyclerView.Adapter<TodoItemsHolderImp
       super(itemView);
     }
   }
+
+  private void sortItems(){
+    Collections.sort(this.items, (item1, item2) ->{
+      if (item1.isDone == item2.isDone){
+        return item2.createdTime.compareTo(item1.createdTime);
+      }
+      if (item1.isDone){
+        return 1;
+      }
+      return -1;
+    });
+  }
+
 }

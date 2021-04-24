@@ -33,11 +33,13 @@ public class MainActivity extends AppCompatActivity {
     EditText editText = findViewById(R.id.editTextInsertTask);
     RecyclerView recycler = findViewById(R.id.recyclerTodoItemsList);
 
+
     editText.setText("");
+
     addButton.setOnClickListener(v->{
       String description = editText.getText().toString();
       if(!description.equals("")){
-        holder.addNewInProgressItem(description);
+        this.holder.addNewInProgressItem(description);
         editText.setText("");
       }
     });
