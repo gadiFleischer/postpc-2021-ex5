@@ -12,13 +12,12 @@ import java.util.Collections;
 import java.util.List;
 
 // TODO: implement!
-public class TodoItemsHolderImpl extends RecyclerView.Adapter<TodoItemsHolderImpl.ViewHolder> implements TodoItemsHolder {
+public class TodoItemsHolderImpl implements TodoItemsHolder {
   List<TodoItem> items;
 
   public TodoItemsHolderImpl(){
-    items = new ArrayList<TodoItem>();
+    items = new ArrayList<>();
   }
-
 
   @Override
   public List<TodoItem> getCurrentItems() { return items; }
@@ -59,28 +58,6 @@ public class TodoItemsHolderImpl extends RecyclerView.Adapter<TodoItemsHolderImp
       }
     }
     this.sortItems();
-  }
-
-  @NonNull
-  @Override
-  public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    return null;
-  }
-
-  @Override
-  public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-  }
-
-  @Override
-  public int getItemCount() {
-    return this.items.size();
-  }
-
-  public class ViewHolder extends RecyclerView.ViewHolder {
-    public ViewHolder(@NonNull View itemView) {
-      super(itemView);
-    }
   }
 
   private void sortItems(){

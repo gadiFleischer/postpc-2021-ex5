@@ -32,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton addButton = findViewById(R.id.buttonCreateTodoItem);
     EditText editText = findViewById(R.id.editTextInsertTask);
     RecyclerView recycler = findViewById(R.id.recyclerTodoItemsList);
-
+    MyAdapter adapter = new MyAdapter(this,this.holder);
+    recycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL,false));
+    recycler.setAdapter(adapter);
 
     editText.setText("");
 
@@ -41,8 +43,11 @@ public class MainActivity extends AppCompatActivity {
       if(!description.equals("")){
         this.holder.addNewInProgressItem(description);
         editText.setText("");
+        adapter.notifyDataSetChanged();
       }
     });
+
+
 
 
 
@@ -50,7 +55,14 @@ public class MainActivity extends AppCompatActivity {
     // TODO: implement the specs as defined below
     //    (find all UI components, hook them up, connect everything you need)
   }
+
+  @Override
+  protected void onSaveInstanceState(@NonNull Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putSerializable("appHolder", this.holder);
+  }
 }
+
 
 /*
 
