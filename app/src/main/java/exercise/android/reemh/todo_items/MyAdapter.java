@@ -1,6 +1,7 @@
 package exercise.android.reemh.todo_items;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
         holder.description.setText(curItem.description);
         holder.creationTime.setText(curItem.createdTime.toString());
         holder.checkBox.setChecked(curItem.isDone);
+        if(curItem.isDone){
+            holder.description.setPaintFlags(holder.description.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }else{
+            holder.description.setPaintFlags(0);
+        }
         holder.checkBox.setOnClickListener(view -> {
             if (curItem.isDone) {
                 itemsHolder.markItemInProgress(curItem);
