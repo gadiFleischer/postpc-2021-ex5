@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,13 +16,14 @@ class MyViewHolder extends RecyclerView.ViewHolder {
     CheckBox checkBox;
     TextView creationTime;
     TextView description;
-    //TODO delete button
+    ImageButton removeButton;
 
     public MyViewHolder(@NonNull View itemView) {
         super(itemView);
         checkBox= itemView.findViewById(R.id.checkBox);
         creationTime = itemView.findViewById(R.id.creationTime);
         description = itemView.findViewById(R.id.description);
+        removeButton = itemView.findViewById(R.id.removeButton);
     }
 }
 
@@ -49,11 +51,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
         holder.description.setText(curItem.description);
         holder.creationTime.setText(curItem.createdTime.toString());
         holder.checkBox.setChecked(curItem.isDone);
-        if(curItem.isDone){
-            holder.description.setPaintFlags(holder.description.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        }else{
-            holder.description.setPaintFlags(0);
-        }
+
+        this.addLineToMarked(holder, curItem);
+
         holder.checkBox.setOnClickListener(view -> {
             if (curItem.isDone) {
                 itemsHolder.markItemInProgress(curItem);
@@ -62,6 +62,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
             }
             notifyDataSetChanged();
         });
+
+        holder.removeButton.setOnClickListener(view -> {
+            itemsHolder.deleteItem(curItem);
+            notifyDataSetChanged();
+        });
+    }
+
+    private void addLineToMarked(@NonNull MyViewHolder holder, TodoItem curItem) {
+        if(curItem.isDone){
+            holder.description.setPaintFlags(holder.description.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }else{
+            holder.description.setPaintFlags(0);
+        }
     }
 
     @Override

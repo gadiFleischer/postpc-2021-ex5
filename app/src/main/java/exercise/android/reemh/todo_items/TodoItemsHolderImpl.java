@@ -1,17 +1,9 @@
 package exercise.android.reemh.todo_items;
 
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-// TODO: implement!
 public class TodoItemsHolderImpl implements TodoItemsHolder {
   List<TodoItem> items;
 
@@ -27,7 +19,6 @@ public class TodoItemsHolderImpl implements TodoItemsHolder {
     TodoItem newItem = new TodoItem(description);
     this.items.add(newItem);
     this.sortItems();
-
   }
 
   @Override
@@ -52,12 +43,7 @@ public class TodoItemsHolderImpl implements TodoItemsHolder {
 
   @Override
   public void deleteItem(TodoItem item) {
-    for(TodoItem myItem : this.items) {
-      if (myItem.equals(item)) {
-        this.items.remove(myItem);
-      }
-    }
-    this.sortItems();
+    this.items.remove(item);
   }
 
   private void sortItems(){
