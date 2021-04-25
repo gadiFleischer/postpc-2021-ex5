@@ -4,6 +4,22 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:minHeight="40dp">
+
+
+    <ImageButton
+        android:id="@+id/removeButton"
+        android:layout_width="35dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="310dp"
+        android:background="#F10707"
+        app:layout_constraintBottom_toBottomOf="@id/description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/description"
+        app:srcCompat="@android:drawable/btn_dialog" />
+
     <CheckBox
         android:id="@+id/checkBox"
         android:layout_width="35dp"
@@ -12,8 +28,7 @@
         app:layout_constraintEnd_toStartOf="@id/description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.902" />
-    
+        app:layout_constraintVertical_bias="0.84" />
 
     <TextView
         android:id="@+id/description"
@@ -21,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="task"
+        android:singleLine="true"
         android:textAlignment="viewStart"
         android:textSize="22sp"
         android:textColor="#249AF8"
@@ -33,16 +49,15 @@
         android:id="@+id/creationTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="80dp"
+        android:fontFamily="sans-serif-light"
         android:text="00:00"
         android:textAlignment="viewEnd"
         android:textSize="10sp"
         android:textStyle="bold"
-        android:fontFamily="sans-serif-light"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="parent" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
