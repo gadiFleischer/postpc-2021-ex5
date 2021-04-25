@@ -47,13 +47,6 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-
-
-
-
-
-    // TODO: implement the specs as defined below
-    //    (find all UI components, hook them up, connect everything you need)
   }
 
   @Override

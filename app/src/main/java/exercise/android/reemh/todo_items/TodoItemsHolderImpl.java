@@ -63,7 +63,7 @@ public class TodoItemsHolderImpl implements TodoItemsHolder {
   private void sortItems(){
     Collections.sort(this.items, (item1, item2) ->{
       if (item1.isDone == item2.isDone){
-        return item2.createdTime.compareTo(item1.createdTime);
+        return item1.createdTime.compareTo(item2.createdTime);
       }
       if (item1.isDone){
         return 1;

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-class MyViewHolder extends RecyclerView.ViewHolder  {
+class MyViewHolder extends RecyclerView.ViewHolder {
     CheckBox checkBox;
     TextView creationTime;
     TextView description;
@@ -29,13 +29,11 @@ class MyViewHolder extends RecyclerView.ViewHolder  {
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     TodoItemsHolder itemsHolder;
     LayoutInflater inflater;
-    private boolean isBind;
 
     public MyAdapter(Context context, TodoItemsHolder holder){
         this.itemsHolder = holder;
         this.inflater = LayoutInflater.from(context);
     }
-
 
     @NonNull
     @Override
@@ -46,11 +44,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        this.isBind = true;
         TodoItem curItem = this.itemsHolder.getCurrentItems().get(position);
         holder.description.setText(curItem.description);
         holder.creationTime.setText(curItem.createdTime.toString());
-
+        holder.checkBox.setChecked(curItem.isDone);
+        holder.checkBox.setOnClickListener(view -> {
+            if (curItem.isDone) {
+                itemsHolder.markItemInProgress(curItem);
+            } else {
+                itemsHolder.markItemDone(curItem);
+            }
+            notifyDataSetChanged();
+        });
     }
 
     @Override
