@@ -1,6 +1,7 @@
 package exercise.android.reemh.todo_items;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +13,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 class MyViewHolder extends RecyclerView.ViewHolder {
     CheckBox checkBox;
     TextView creationTime;
     TextView description;
     ImageButton removeButton;
+    FloatingActionButton editButton;
+
 
     public MyViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -24,6 +29,7 @@ class MyViewHolder extends RecyclerView.ViewHolder {
         creationTime = itemView.findViewById(R.id.creationTime);
         description = itemView.findViewById(R.id.description);
         removeButton = itemView.findViewById(R.id.removeButton);
+        editButton =  itemView.findViewById(R.id.editButton);
     }
 }
 
@@ -32,10 +38,12 @@ class MyViewHolder extends RecyclerView.ViewHolder {
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     TodoItemsHolder itemsHolder;
     LayoutInflater inflater;
+    Context context;
 
     public MyAdapter(Context context, TodoItemsHolder holder){
         this.itemsHolder = holder;
         this.inflater = LayoutInflater.from(context);
+        this.context=context;
     }
 
     @NonNull
@@ -65,6 +73,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
         holder.removeButton.setOnClickListener(view -> {
             itemsHolder.deleteItem(curItem);
+            notifyDataSetChanged();
+        });
+
+        holder.editButton.setOnClickListener(view -> {
+            Intent editIntent = new Intent(this.context, EditActivity.class);
+            editIntent.putExtra("rowItem", curItem);
+            this.context.startActivity(editIntent);
             notifyDataSetChanged();
         });
     }
