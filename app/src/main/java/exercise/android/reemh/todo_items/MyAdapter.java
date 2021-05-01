@@ -17,7 +17,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 class MyViewHolder extends RecyclerView.ViewHolder {
     CheckBox checkBox;
-    TextView creationTime;
     TextView description;
     ImageButton removeButton;
     FloatingActionButton editButton;
@@ -26,7 +25,6 @@ class MyViewHolder extends RecyclerView.ViewHolder {
     public MyViewHolder(@NonNull View itemView) {
         super(itemView);
         checkBox= itemView.findViewById(R.id.checkBox);
-        creationTime = itemView.findViewById(R.id.creationTime);
         description = itemView.findViewById(R.id.description);
         removeButton = itemView.findViewById(R.id.removeButton);
         editButton =  itemView.findViewById(R.id.editButton);
@@ -57,7 +55,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         TodoItem curItem = this.itemsHolder.getCurrentItems().get(position);
         holder.description.setText(curItem.description);
-        holder.creationTime.setText(curItem.createdTime.toString());
         holder.checkBox.setChecked(curItem.isDone);
 
         this.addLineToMarked(holder, curItem);

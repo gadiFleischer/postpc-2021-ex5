@@ -1,18 +1,24 @@
 package exercise.android.reemh.todo_items;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EditActivity extends AppCompatActivity {
     private TodoItem item;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +52,13 @@ public class EditActivity extends AppCompatActivity {
                 item.setDescription(s.toString());
                 updateModifiedTime(modifiedTime);
             }
+        });
 
+
+        description.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard(v);
+            }
         });
 
         checkBox.setOnClickListener(view -> {
@@ -76,6 +88,10 @@ public class EditActivity extends AppCompatActivity {
         String proggstr = item.isDone ? "this item is Done": " this item is in-progress";
         progText.setText(proggstr);
         checkBox.setChecked(item.isDone);
+    }
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     @Override
