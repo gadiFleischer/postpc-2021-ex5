@@ -46,6 +46,18 @@ public class TodoItemsHolderImpl implements TodoItemsHolder {
     this.items.remove(item);
   }
 
+  @Override
+  public void setItem(TodoItem item) {
+    for(TodoItem myItem : this.items) {
+      if (myItem.createdTime == item.createdTime) {
+        this.items.remove(myItem);
+        this.items.add(item);
+        //myItem=item;
+      }
+    }
+    this.sortItems();
+  }
+
   private void sortItems(){
     Collections.sort(this.items, (item1, item2) ->{
       if (item1.isDone == item2.isDone){

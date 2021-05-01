@@ -23,4 +23,7 @@ public interface TodoItemsHolder extends Serializable {
 
   /** delete the @param item */
   void deleteItem(TodoItem item);
+
+  void setItem(TodoItem item);
+
 }

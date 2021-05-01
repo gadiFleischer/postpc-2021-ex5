@@ -1,7 +1,9 @@
 package exercise.android.reemh.todo_items;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +39,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     TodoItemsHolder itemsHolder;
     LayoutInflater inflater;
     Context context;
+//    private BroadcastReceiver broadcastReceiverForEdit = null;
+
 
     public MyAdapter(Context context, TodoItemsHolder holder){
         this.itemsHolder = holder;
@@ -79,7 +83,20 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
             this.context.startActivity(editIntent);
             notifyDataSetChanged();
         });
+//        registerReceiver(broadcastReceiverForEdit, new IntentFilter("itemChanged"));
+//        broadcastReceiverForEdit = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                if (intent.getAction().equals("itemChanged")) {
+//                    TodoItem changedItem = (TodoItem) intent.getSerializableExtra("rowItem");
+//                    itemsHolder.setItem(changedItem);
+//                    notifyDataSetChanged();
+//                }
+//            }
+//        };
+
     }
+
 
     private void addLineToMarked(@NonNull MyViewHolder holder, TodoItem curItem) {
         if(curItem.isDone){

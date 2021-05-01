@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +23,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
   public TodoItemsHolder holder = null;
+  private BroadcastReceiver broadcastReceiverForEdit = null;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +53,28 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
+    this.registerReceiver(broadcastReceiverForEdit, new IntentFilter("itemChanged"));
+    broadcastReceiverForEdit = new BroadcastReceiver() {
+      @Override
+      public void onReceive(Context context, Intent intent) {
+        if (intent.getAction().equals("itemChanged")) {
+          TodoItem changedItem = (TodoItem) intent.getSerializableExtra("rowItem");
+          holder.setItem(changedItem);
+          adapter.notifyDataSetChanged();
+        }
+      }
+    };
   }
 
   @Override
   protected void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putSerializable("appHolder", this.holder);
+  }
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    this.unregisterReceiver(broadcastReceiverForEdit);
   }
 }
 
