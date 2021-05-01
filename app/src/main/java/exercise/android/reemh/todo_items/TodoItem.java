@@ -7,13 +7,13 @@ public class TodoItem implements Serializable {
     public String description;
     public boolean isDone;
     public Date createdTime;
-    public Date lastModified;
+    public Date modifiedDate;
 
     public TodoItem(String input){
         description = input;
         isDone = false;
         createdTime = new Date();
-        lastModified = createdTime;
+        modifiedDate = createdTime;
     }
     public void setCheckBoxDone(){
         this.isDone =true;
@@ -22,7 +22,7 @@ public class TodoItem implements Serializable {
         this.isDone =false;
     }
     public void updateModifiedTime(){
-        this.lastModified=new Date();
+        this.modifiedDate =new Date();
     }
     public void setDescription(String newDesc){
         this.description=newDesc;
