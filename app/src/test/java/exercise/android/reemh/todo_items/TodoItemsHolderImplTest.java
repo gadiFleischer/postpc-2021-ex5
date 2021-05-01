@@ -1,3 +1,4 @@
+
 package exercise.android.reemh.todo_items;
 
 import org.junit.Test;
@@ -113,7 +114,4 @@ public class TodoItemsHolderImplTest {
     assertEquals(false, item.isDone);
 
   }
-
-
-  // TODO: add at least 10 more tests to verify correct behavior of your implementation of `TodoItemsHolderImpl` class
 }

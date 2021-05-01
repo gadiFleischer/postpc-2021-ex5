@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 SPECS:
 
 - the screen starts out empty (no items shown, edit-text input should be empty)
-- every time the user taps the "add TODO item" button:
+- every time the user taps the "add item button:
     * if the edit-text is empty (no input), nothing happens
     * if there is input:
         - a new TodoItem (checkbox not checked) will be created and added to the items list
