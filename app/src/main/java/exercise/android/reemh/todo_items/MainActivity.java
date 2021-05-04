@@ -1,24 +1,19 @@
 package exercise.android.reemh.todo_items;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.List;
+import java.io.Serializable;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -71,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
     super.onSaveInstanceState(outState);
     outState.putSerializable("appHolder", this.holder);
   }
+//  public void onRestoreInstanceState(Bundle savedInstanceState) {
+//    super.onSaveInstanceState(savedInstanceState);
+//    this.holder = (TodoItemsHolder)  savedInstanceState.getSerializable("appHolder");
+//  }
   @Override
   protected void onDestroy() {
     super.onDestroy();
