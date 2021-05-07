@@ -15,19 +15,21 @@ import java.util.List;
 
 public class MyApp extends Application {
 
-    List<TodoItem> todoItems;
+    public List<TodoItem> todoItems;
     SharedPreferences sharedPref;
     Context context;
     public MyApp(Context context){
         this.context=context;
-        sharedPref =  this.context.getSharedPreferences("MyPref", MODE_PRIVATE);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        loadTodoList();
+//        sharedPref =  this.context.getSharedPreferences("MyPref", MODE_PRIVATE);
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        loadTodoList();
+//        sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+//        loadTodoList();
     }
     public void loadTodoList() {
         todoItems =  new ArrayList<>();

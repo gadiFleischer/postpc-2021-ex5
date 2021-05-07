@@ -17,10 +17,11 @@ import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity {
 
-  public TodoItemsHolder holder = null;
+  TodoItemsHolder holder;
   MyAdapter adapter;
-  private BroadcastReceiver broadcastReceiverForEdit = null;
-  private MyApp myApp;
+  BroadcastReceiver broadcastReceiverForEdit;;
+  MyApp myApp;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +31,17 @@ public class MainActivity extends AppCompatActivity {
     if (holder == null) {
       holder = new TodoItemsHolderImpl();
     }
+    myApp.loadTodoList();
+    holder.setItems(myApp.todoItems);
+    adapter = new MyAdapter(this,this.holder);
+    this.registerReceiver(broadcastReceiverForEdit, new IntentFilter("itemChanged"));
 
+    //views
     FloatingActionButton addButton = findViewById(R.id.buttonCreateTodoItem);
     EditText editText = findViewById(R.id.editTextInsertTask);
     RecyclerView recycler = findViewById(R.id.recyclerTodoItemsList);
-    this.adapter = new MyAdapter(this,this.holder);
     recycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL,false));
     recycler.setAdapter(adapter);
-
     editText.setText("");
 
     addButton.setOnClickListener(v->{
@@ -49,83 +53,50 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-    this.registerReceiver(broadcastReceiverForEdit, new IntentFilter("itemChanged"));
-    broadcastReceiverForEdit = new BroadcastReceiver() {
-      @Override
-      public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals("itemChanged")) {
-          TodoItem changedItem = (TodoItem) intent.getSerializableExtra("rowItem");
-          holder.setItem(changedItem);
-          adapter.notifyDataSetChanged();
-        }
+  broadcastReceiverForEdit = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+      if (intent.getAction().equals("itemChanged")) {
+        TodoItem changedItem = (TodoItem) intent.getSerializableExtra("rowItem");
+        holder.setItem(changedItem);
+        adapter.notifyDataSetChanged();
       }
-    };
-
+    }
+  };
 
   }
   @Override
   protected void onStop() {
     super.onStop();
-//    myApp.sharedPref.edit().putString("todoItems", this.holder.getCurrentItems().toString()).apply();
     myApp.todoItems=this.holder.getCurrentItems();
     myApp.saveTodoList();
   }
-
+  @Override
+  protected void onPause() {
+    super.onPause();
+    myApp.todoItems=this.holder.getCurrentItems();
+    myApp.saveTodoList();
+  }
+  @Override
+  protected void onResume() {
+    super.onResume();
+    myApp.loadTodoList();
+    holder.setItems(myApp.todoItems);
+  }
 
   @Override
   protected void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putSerializable("appHolder", this.holder);
   }
-  public void onRestoreInstanceState(Bundle savedInstanceState) {
-    super.onSaveInstanceState(savedInstanceState);
-    this.holder = (TodoItemsHolder)  savedInstanceState.getSerializable("appHolder");
-    this.adapter.notifyDataSetChanged();
-  }
+//  public void onRestoreInstanceState(Bundle savedInstanceState) {
+//    super.onSaveInstanceState(savedInstanceState);
+//    this.holder = (TodoItemsHolder)  savedInstanceState.getSerializable("appHolder");
+//    this.adapter.notifyDataSetChanged();
+//  }
   @Override
   protected void onDestroy() {
     super.onDestroy();
     this.unregisterReceiver(broadcastReceiverForEdit);
   }
 }
-
-
-/*
-
-SPECS:
-
-- the screen starts out empty (no items shown, edit-text input should be empty)
-- every time the user taps the "add item button:
-    * if the edit-text is empty (no input), nothing happens
-    * if there is input:
-        - a new TodoItem (checkbox not checked) will be created and added to the items list
-        - the new TodoItem will be shown as the first item in the Recycler view
-        - the edit-text input will be erased
-- the "TodoItems" list is shown in the screen
-  * every operation that creates/edits/deletes a TodoItem should immediately be shown in the UI
-  * the order of the TodoItems in the UI is:
-    - all IN-PROGRESS items are shown first. items are sorted by creation time,
-      where the last-created item is the first item in the list
-    - all DONE items are shown afterwards, no particular sort is needed (but try to think about what's the best UX for the user)
-  * every item shows a checkbox and a description. you can decide to show other data as well (creation time, etc)
-  * DONE items should show the checkbox as checked, and the description with a strike-through text
-  * IN-PROGRESS items should show the checkbox as not checked, and the description text normal
-  * upon click on the checkbox, flip the TodoItem's state (if was DONE will be IN-PROGRESS, and vice versa)
-  * add a functionality to remove a TodoItem. either by a button, long-click or any other UX as you want
-- when a screen rotation happens (user flips the screen):
-  * the UI should still show the same list of TodoItems
-  * the edit-text should store the same user-input (don't erase input upon screen change)
-
-Remarks:
-- you should use the `holder` field of the activity
-- you will need to create a class extending from RecyclerView.Adapter and use it in this activity
-- notice that you have the "row_todo_item.xml" file and you can use it in the adapter
-- you should add tests to make sure your activity works as expected. take a look at file `MainActivityTest.java`
-
-
-
-(optional, for advanced students:
-- save the TodoItems list to file, so the list will still be in the same state even when app is killed and re-launched
-)
-
-*/

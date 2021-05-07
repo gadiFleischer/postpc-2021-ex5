@@ -26,4 +26,5 @@ public interface TodoItemsHolder extends Serializable {
 
   void setItem(TodoItem item);
 
+  void setItems(List<TodoItem> todoItems);
 }

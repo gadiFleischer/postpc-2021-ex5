@@ -10,6 +10,9 @@ public class TodoItemsHolderImpl implements TodoItemsHolder {
   public TodoItemsHolderImpl(){
     items = new ArrayList<>();
   }
+  public void setItems(List<TodoItem> items){
+    this.items=items;
+  }
 
   @Override
   public List<TodoItem> getCurrentItems() { return items; }

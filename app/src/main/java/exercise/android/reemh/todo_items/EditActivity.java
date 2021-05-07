@@ -117,7 +117,8 @@ public class EditActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent backToMainIntent = new Intent("itemChanged");
+        Intent backToMainIntent = new Intent();
+        backToMainIntent.setAction("itemChanged");
         backToMainIntent.putExtra("rowItem",this.item);
         sendBroadcast(backToMainIntent);
     }
