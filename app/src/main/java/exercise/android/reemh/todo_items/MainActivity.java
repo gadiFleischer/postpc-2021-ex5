@@ -16,12 +16,10 @@ import java.io.Serializable;
 
 
 public class MainActivity extends AppCompatActivity {
-
   TodoItemsHolder holder;
   MyAdapter adapter;
   BroadcastReceiver broadcastReceiverForEdit;;
   MyApp myApp;
-
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +63,8 @@ public class MainActivity extends AppCompatActivity {
     }
   };
   registerReceiver(broadcastReceiverForEdit, new IntentFilter("itemChanged"));
-
-
   }
+
   @Override
   protected void onStop() {
     super.onStop();

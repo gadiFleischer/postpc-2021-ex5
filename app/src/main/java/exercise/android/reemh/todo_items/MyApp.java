@@ -1,14 +1,10 @@
 package exercise.android.reemh.todo_items;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.view.LayoutInflater;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +18,11 @@ public class MyApp extends Application {
         this.context=context;
         sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         loadTodoList();
-//        sharedPref =  this.context.getSharedPreferences("MyPref", MODE_PRIVATE);
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-//        sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-//        loadTodoList();
     }
     public void loadTodoList() {
         todoItems =  new ArrayList<>();
@@ -44,6 +37,4 @@ public class MyApp extends Application {
         String itemsJson = new Gson().toJson(todoItems);
         sharedPref.edit().putString("todoItems", itemsJson).apply();
     }
-
-
 }

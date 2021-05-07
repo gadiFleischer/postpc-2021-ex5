@@ -14,13 +14,8 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-                <action android:name="itemChanged" />
             </intent-filter>
         </activity>
-        <activity android:name=".EditActivity">
-            <intent-filter>
-                <action android:name="itemChanged" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".EditActivity"></activity>
     </application>
 </manifest>
