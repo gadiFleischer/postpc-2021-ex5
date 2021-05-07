@@ -1,9 +1,7 @@
 package exercise.android.reemh.todo_items;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,14 +30,10 @@ class MyViewHolder extends RecyclerView.ViewHolder {
     }
 }
 
-
-
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
-    TodoItemsHolder itemsHolder;
+    public TodoItemsHolder itemsHolder;
     LayoutInflater inflater;
     Context context;
-//    private BroadcastReceiver broadcastReceiverForEdit = null;
-
 
     public MyAdapter(Context context, TodoItemsHolder holder){
         this.itemsHolder = holder;
@@ -57,7 +50,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        TodoItem curItem = this.itemsHolder.getCurrentItems().get(position);
+        TodoItem curItem = itemsHolder.getCurrentItems().get(position);
         holder.description.setText(curItem.description);
         holder.checkBox.setChecked(curItem.isDone);
 
@@ -81,20 +74,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
             Intent editIntent = new Intent(this.context, EditActivity.class);
             editIntent.putExtra("rowItem", curItem);
             this.context.startActivity(editIntent);
-            notifyDataSetChanged();
         });
-//        registerReceiver(broadcastReceiverForEdit, new IntentFilter("itemChanged"));
-//        broadcastReceiverForEdit = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                if (intent.getAction().equals("itemChanged")) {
-//                    TodoItem changedItem = (TodoItem) intent.getSerializableExtra("rowItem");
-//                    itemsHolder.setItem(changedItem);
-//                    notifyDataSetChanged();
-//                }
-//            }
-//        };
-
     }
 
 

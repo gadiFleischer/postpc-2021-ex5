@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     myApp.loadTodoList();
     holder.setItems(myApp.todoItems);
     adapter = new MyAdapter(this,this.holder);
-    this.registerReceiver(broadcastReceiverForEdit, new IntentFilter("itemChanged"));
 
     //views
     FloatingActionButton addButton = findViewById(R.id.buttonCreateTodoItem);
@@ -59,10 +58,14 @@ public class MainActivity extends AppCompatActivity {
       if (intent.getAction().equals("itemChanged")) {
         TodoItem changedItem = (TodoItem) intent.getSerializableExtra("rowItem");
         holder.setItem(changedItem);
+        myApp.todoItems=holder.getCurrentItems();
+        myApp.saveTodoList();
         adapter.notifyDataSetChanged();
       }
     }
   };
+  registerReceiver(broadcastReceiverForEdit, new IntentFilter("itemChanged"));
+
 
   }
   @Override
@@ -71,12 +74,7 @@ public class MainActivity extends AppCompatActivity {
     myApp.todoItems=this.holder.getCurrentItems();
     myApp.saveTodoList();
   }
-  @Override
-  protected void onPause() {
-    super.onPause();
-    myApp.todoItems=this.holder.getCurrentItems();
-    myApp.saveTodoList();
-  }
+
   @Override
   protected void onResume() {
     super.onResume();
@@ -89,11 +87,6 @@ public class MainActivity extends AppCompatActivity {
     super.onSaveInstanceState(outState);
     outState.putSerializable("appHolder", this.holder);
   }
-//  public void onRestoreInstanceState(Bundle savedInstanceState) {
-//    super.onSaveInstanceState(savedInstanceState);
-//    this.holder = (TodoItemsHolder)  savedInstanceState.getSerializable("appHolder");
-//    this.adapter.notifyDataSetChanged();
-//  }
   @Override
   protected void onDestroy() {
     super.onDestroy();
