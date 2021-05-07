@@ -18,14 +18,15 @@ import java.io.Serializable;
 public class MainActivity extends AppCompatActivity {
 
   public TodoItemsHolder holder = null;
+  MyAdapter adapter;
   private BroadcastReceiver broadcastReceiverForEdit = null;
-
+  private MyApp myApp;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-
+    myApp = new MyApp(this);
     if (holder == null) {
       holder = new TodoItemsHolderImpl();
     }
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton addButton = findViewById(R.id.buttonCreateTodoItem);
     EditText editText = findViewById(R.id.editTextInsertTask);
     RecyclerView recycler = findViewById(R.id.recyclerTodoItemsList);
-    MyAdapter adapter = new MyAdapter(this,this.holder);
+    this.adapter = new MyAdapter(this,this.holder);
     recycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL,false));
     recycler.setAdapter(adapter);
 
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
       if(!description.equals("")){
         this.holder.addNewInProgressItem(description);
         editText.setText("");
-        adapter.notifyDataSetChanged();
+        this.adapter.notifyDataSetChanged();
       }
     });
 
@@ -59,17 +60,28 @@ public class MainActivity extends AppCompatActivity {
         }
       }
     };
+
+
   }
+  @Override
+  protected void onStop() {
+    super.onStop();
+//    myApp.sharedPref.edit().putString("todoItems", this.holder.getCurrentItems().toString()).apply();
+    myApp.todoItems=this.holder.getCurrentItems();
+    myApp.saveTodoList();
+  }
+
 
   @Override
   protected void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putSerializable("appHolder", this.holder);
   }
-//  public void onRestoreInstanceState(Bundle savedInstanceState) {
-//    super.onSaveInstanceState(savedInstanceState);
-//    this.holder = (TodoItemsHolder)  savedInstanceState.getSerializable("appHolder");
-//  }
+  public void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onSaveInstanceState(savedInstanceState);
+    this.holder = (TodoItemsHolder)  savedInstanceState.getSerializable("appHolder");
+    this.adapter.notifyDataSetChanged();
+  }
   @Override
   protected void onDestroy() {
     super.onDestroy();

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -15,19 +16,22 @@ import java.util.List;
 public class MyApp extends Application {
 
     List<TodoItem> todoItems;
-    SharedPreferences sp;
-//    public static Context context;
-
+    SharedPreferences sharedPref;
+    Context context;
+    public MyApp(Context context){
+        this.context=context;
+        sharedPref =  this.context.getSharedPreferences("MyPref", MODE_PRIVATE);
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        sp = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         loadTodoList();
     }
     public void loadTodoList() {
         todoItems =  new ArrayList<>();
-        String itemsJson = sp.getString("todoItems", "");
+        String itemsJson = sharedPref.getString("todoItems", "");
         if (!itemsJson.equals("")) {
             Type listType = new TypeToken<ArrayList<TodoItem>>(){}.getType();
             todoItems = new Gson().fromJson(itemsJson, listType);
@@ -36,7 +40,7 @@ public class MyApp extends Application {
 
     public void saveTodoList() {
         String itemsJson = new Gson().toJson(todoItems);
-        sp.edit().putString("todoItems", itemsJson).apply();
+        sharedPref.edit().putString("todoItems", itemsJson).apply();
     }
 
 
