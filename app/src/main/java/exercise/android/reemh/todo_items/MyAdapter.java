@@ -75,6 +75,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
             editIntent.putExtra("rowItem", curItem);
             this.context.startActivity(editIntent);
         });
+        holder.description.setOnClickListener(v -> {
+            Intent editIntent = new Intent(this.context, EditActivity.class);
+            editIntent.putExtra("rowItem", curItem);
+            this.context.startActivity(editIntent);
+        });
     }
 
 
